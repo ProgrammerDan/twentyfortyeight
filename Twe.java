@@ -44,11 +44,11 @@ class Twe {
 		do{
 			switch((new Scanner(System.in)).nextLine().charAt(0)){
 				case 'u':
-					foldUp();
-					return;
+					if (foldUp()>0)return;
+					break;
 				case 'd':
-					foldDown();
-					return;
+					if (foldDown()>0)return;
+					break;
 				case 'l':
 					foldLeft();
 					return;
@@ -61,21 +61,90 @@ class Twe {
 			}
 		} while(true);
 	}
-	void foldUp(){
+	// x x x 2 = 2 x x x
+	// x x 2 x = 2 x x x
+	// x 2 x x = 2 x x x
+	// 2 x x x = 2 x x x
+	// x x 2 2 = 4 x x x
+	// x 2 2 x = 4 x x x
+	// 2 2 x x = 4 x x x
+	// x 2 x 2 = 4 x x x
+	// 2 x 2 x = 4 x x x
+	// 2 x x 2 = 4 x x x
+	// 2 x 2 2 = 2 4 x x
+	// 2 2 x 2 = 4 2 x x
+	// 2 2 2 2 = 4 4 x x
+	// 4 2 2 x = 4 4 x x
+	// 4 4 4 x = 8 4 x x
+	// 2 x 4 x = 2 4 x x
+	// x x 2 4 = 2 4 x x
+	int foldUp(){
+		int didMove=0;
 		int[][] nb = new int[4][4];
 		for(int x=0;x<4;x++){
-			int fs=-1;
-			int ls=-1;
+			int freeSpace=-1;
+			int lastSpace=-1;
 			for(int y=0;y<4;y++){
 				if (board[y][x]>0){
-					if (ls>-1&&nb[y][ls]==board[y][x]){
-						nb[y][ls]*=2;
-						ls++;
-					}else if(fs>-1&&nb
+					if (lastSpace>-1&&nb[lastSpace][x]==board[y][x]){
+						nb[lastSpace][x]*=2;
+						lastSpace=-1;
+						didMove++;
+						if (freeSpace<0||freeSpace>-1&&y<freeSpace)
+							freeSpace=y;
+					}else if(freeSpace>-1){
+						nb[freeSpace][x]=board[y][x];
+						lastSpace=freeSpace;
+						freeSpace=y;
+						didMove++;
+					}else{
+						nb[y][x]=board[y][x];
+						lastSpace=y;
+						freeSpace=-1;
+					}
+				} else {
+					if (freeSpace<0||freeSpace>-1&&y<freeSpace)
+						freeSpace=y;
+				}
+			}
+		}
+		board=nb;
 		chalk("fold up",true);
+		return didMove;
 	}
-	void foldDown(){
+	int foldDown(){
+		int didMove=0;
+		int[][] nb = new int[4][4];
+		for(int x=0;x<4;x++){
+			int freeSpace=-1;
+			int lastSpace=-1;
+			for(int y=0;y<4;y++){
+				if (board[3-y][x]>0){
+					if (lastSpace>-1&&nb[3-lastSpace][x]==board[3-y][x]){
+						nb[3-lastSpace][x]*=2;
+						lastSpace=-1;
+						didMove++;
+						if (freeSpace<0||freeSpace>-1&&y<freeSpace)
+							freeSpace=y;
+					}else if(freeSpace>-1){
+						nb[3-freeSpace][x]=board[3-y][x];
+						lastSpace=freeSpace;
+						freeSpace=y;
+						didMove++;
+					}else{
+						nb[3-y][x]=board[3-y][x];
+						lastSpace=y;
+						freeSpace=-1;
+					}
+				} else {
+					if (freeSpace<0||freeSpace>-1&&y<freeSpace)
+						freeSpace=y;
+				}
+			}
+		}
+		board=nb;
 		chalk("fold down",true);
+		return didMove;
 	}
 	void foldLeft(){
 		chalk("fold left",true);
