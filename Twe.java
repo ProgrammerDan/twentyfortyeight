@@ -1,3 +1,4 @@
+import java.util.*;
 class Twe {
 	public static void main(String[] a){
 		(new Twe()).start();
@@ -9,7 +10,7 @@ class Twe {
 			placeTwo();
 			drawBoard();
 			resolve();
-		}while(x=notDone()>0);
+		}while((x=notDone())>0);
 		wrapup(x);
 	}
 	int notDone(){
@@ -30,7 +31,7 @@ class Twe {
 		}
 	}
 	char getUser(){
-		return System.in.readLine().charAt(0);
+		return (new Scanner(System.in)).nextLine().charAt(0);
 	}
 	void resolve(){
 		do{
@@ -63,36 +64,38 @@ class Twe {
 		chalk("fold right",true);
 	}
 	int vec(){
-		return java.util.Random().next(5);
+		return (new Random()).nextInt(5);
 	}
 	void placeTwo(){
 		int x,y;
 		do{
-			x=vec(),y=vec();
+			x=vec();y=vec();
 		}while(board[x][y]>0);
 		board[x][y]=2;
 	}
 	void chalk(String a, boolean nl){
-		System.out.print(a+nl?"\n":"");
+		System.out.print(a+(nl?"\n":""));
 	}
 	String buffer(){
-		return "|    |    |    |    |    |";
+		return "|     |     |     |     |     |";
 	}
 	void drawBoard(){
-		chalk("+----+----+----+----+----+",true);
+		chalk("+-----+-----+-----+-----+-----+",true);
 		String p[] = new String[6];
 		for(int[]y:board){
 			p[0]=p[1]=p[3]=p[4]=buffer();
+			p[2]="";
 			for(int x=0;x<5;){
-				p[2]+=adjust(y[x])+x>3?"|":"";
+				p[2]+=adjust(y[x++]);
 			}
-			p[5]="+----+----+----+----+----+";
+			p[2]+="|";
+			p[5]="+-----+-----+-----+-----+-----+";
 			for (String q:p){
 				chalk(q,true);
 			}
 		}
 	}
 	String adjust(int a){
-		return String.format("|%4d",a);
+		return String.format("|%5d",a);
 	}
 }
