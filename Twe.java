@@ -80,31 +80,22 @@ class Twe {
 	// x x 2 4 = 2 4 x x
 	int foldUp(){
 		int didMove=0;
+		int nextSpot;
 		int[][] nb = new int[4][4];
 		for(int x=0;x<4;x++){
-			int freeSpace=-1;
-			int lastSpace=-1;
+			nextSpot=0;
 			for(int y=0;y<4;y++){
-				if (board[y][x]>0){
-					if (lastSpace>-1&&nb[lastSpace][x]==board[y][x]){
-						nb[lastSpace][x]*=2;
-						lastSpace=-1;
-						didMove++;
-						if (freeSpace<0||freeSpace>-1&&y<freeSpace)
-							freeSpace=y;
-					}else if(freeSpace>-1){
-						nb[freeSpace][x]=board[y][x];
-						lastSpace=freeSpace;
-						freeSpace=y;
+				if(board[y][x]>0){
+					if(nb[nextSpot][x]<1){
+						nb[nextSpot][x]=board[y][x];
+						didMove+=y-nextSpot;
+					}else if(nb[nextSpot][x]==board[y][x]){
+						nb[nextSpot++][x]*=2;
 						didMove++;
 					}else{
-						nb[y][x]=board[y][x];
-						lastSpace=y;
-						freeSpace=-1;
+						nb[++nextSpot][x]=board[y][x];
+						didMove+=y-nextSpot;
 					}
-				} else {
-					if (freeSpace<0||freeSpace>-1&&y<freeSpace)
-						freeSpace=y;
 				}
 			}
 		}
