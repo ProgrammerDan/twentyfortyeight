@@ -62,6 +62,16 @@ class Twe {
 		} while(true);
 	}
 	void foldUp(){
+		int[][] nb = new int[4][4];
+		for(int x=0;x<4;x++){
+			int fs=-1;
+			int ls=-1;
+			for(int y=0;y<4;y++){
+				if (board[y][x]>0){
+					if (ls>-1&&nb[y][ls]==board[y][x]){
+						nb[y][ls]*=2;
+						ls++;
+					}else if(fs>-1&&nb
 		chalk("fold up",true);
 	}
 	void foldDown(){
