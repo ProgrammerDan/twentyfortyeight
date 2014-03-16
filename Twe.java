@@ -61,23 +61,11 @@ class Twe {
 			}
 		} while(true);
 	}
-	// x x x 2 = 2 x x x
-	// x x 2 x = 2 x x x
-	// x 2 x x = 2 x x x
-	// 2 x x x = 2 x x x
-	// x x 2 2 = 4 x x x
-	// x 2 2 x = 4 x x x
-	// 2 2 x x = 4 x x x
-	// x 2 x 2 = 4 x x x
-	// 2 x 2 x = 4 x x x
-	// 2 x x 2 = 4 x x x
-	// 2 x 2 2 = 2 4 x x
-	// 2 2 x 2 = 4 2 x x
-	// 2 2 2 2 = 4 4 x x
-	// 4 2 2 x = 4 4 x x
-	// 4 4 4 x = 8 4 x x
-	// 2 x 4 x = 2 4 x x
-	// x x 2 4 = 2 4 x x
+	int fold(int xStart, int yStart, int mult, boolean vert){
+		int didMove=0;
+		int nextSpot;
+		int[][] nb = new int[4][4];
+		for(int x=xStart;vert?
 	int foldUp(){
 		int didMove=0;
 		int nextSpot;
@@ -100,41 +88,30 @@ class Twe {
 			}
 		}
 		board=nb;
-		chalk("fold up",true);
 		return didMove;
 	}
 	int foldDown(){
 		int didMove=0;
+		int nextSpot;
 		int[][] nb = new int[4][4];
 		for(int x=0;x<4;x++){
-			int freeSpace=-1;
-			int lastSpace=-1;
-			for(int y=0;y<4;y++){
-				if (board[3-y][x]>0){
-					if (lastSpace>-1&&nb[3-lastSpace][x]==board[3-y][x]){
-						nb[3-lastSpace][x]*=2;
-						lastSpace=-1;
-						didMove++;
-						if (freeSpace<0||freeSpace>-1&&y<freeSpace)
-							freeSpace=y;
-					}else if(freeSpace>-1){
-						nb[3-freeSpace][x]=board[3-y][x];
-						lastSpace=freeSpace;
-						freeSpace=y;
+			nextSpot=3;
+			for(int y=3;y>=0;y--){
+				if(board[y][x]>0){
+					if(nb[nextSpot][x]<1){
+						nb[nextSpot][x]=board[y][x];
+						didMove+=nextSpot-y;
+					}else if(nb[nextSpot][x]==board[y][x]){
+						nb[nextSpot--][x]*=2;
 						didMove++;
 					}else{
-						nb[3-y][x]=board[3-y][x];
-						lastSpace=y;
-						freeSpace=-1;
+						nb[--nextSpot][x]=board[y][x];
+						didMove+=nextSpot-y;
 					}
-				} else {
-					if (freeSpace<0||freeSpace>-1&&y<freeSpace)
-						freeSpace=y;
 				}
 			}
 		}
 		board=nb;
-		chalk("fold down",true);
 		return didMove;
 	}
 	void foldLeft(){
