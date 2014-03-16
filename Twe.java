@@ -6,7 +6,6 @@ class Twe {
 	int[][] board=new int[4][4];
 	void start(){
 		int x;
-		board=new int[][]{{0, 2, 8, 16},{4,8,16,32},{8,16,32,64},{16,32,64,128}};
 		placeTwo();
 		do{
 			drawBoard();
@@ -54,7 +53,7 @@ class Twe {
 					if (fold(true, true)>0)return;
 					break;
 				case 'l':
-					if (foldLeft()>0)return;
+					if (fold(false,false)>0)return;
 					break;
 				case 'r':
 					if (foldRight()>0)return;
