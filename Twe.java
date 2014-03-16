@@ -44,7 +44,7 @@ class Twe {
 		do{
 			switch((new Scanner(System.in)).nextLine().charAt(0)){
 				case 'u':
-					if (foldUp()>0)return;
+					if (fold(false,true)>0)return;
 					break;
 				case 'd':
 					if (foldDown()>0)return;
@@ -87,7 +87,9 @@ class Twe {
 						nextSpot+=inv?-1:1;
 						didMove++;
 					}else{
-						nextSpot+=inv?-1:1;
+						nextSpot+=inv?-1:1;//suckage
+						q=vert?x:nextSpot;
+						r=vert?nextSpot:y;
 						nb[r][q]=board[y][x];
 						didMove+=(inv?-1:1)*(vert?y-r:x-q);
 					}
