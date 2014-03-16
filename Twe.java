@@ -50,22 +50,55 @@ class Twe {
 					if (foldDown()>0)return;
 					break;
 				case 'l':
-					foldLeft();
-					return;
+					if (foldLeft()>0)return;
+					break;
 				case 'r':
-					foldRight();
-					return;
+					if (foldRight()>0)return;
+					break;
 				case 'z':
 					board[0][0]=2048; // instant win;
 					return;
 			}
 		} while(true);
 	}
-	int fold(int xStart, int yStart, int mult, boolean vert){
+	// false,true  = up
+	// true, true  = down
+	// false,false = left
+	// true, false = right
+	int fold(boolean inv, boolean vert){
 		int didMove=0;
-		int nextSpot;
+		int nextSpot,x,y,v,q,r;
 		int[][] nb = new int[4][4];
-		for(int x=xStart;vert?
+		for(int i=0;i<4;i++){
+			nextSpot=inv?3:0;
+			for(int j=0;j<4;j++){
+				v=vert?i:j;
+				x=inv?3-v:v;
+				v=vert?j:i;
+				y=inv?3-v:v;
+				q=vert?x:nextSpot;
+				r=vert?nextSpot:y;
+				if(board[y][x]>0){
+					if(nb[r][q]<1){
+						nb[r][q]=board[y][x];
+						didMove+=(inv?-1:1)*(vert?y-r:x-q);
+					}else if(nb[r][q]==board[y][x]){
+						nb[r][q]*=2;
+						nextSpot+=inv?-1:1;
+						didMove++;
+					}else{
+						nextSpot+=inv?-1:1;
+						nb[r][q]=board[y][x];
+						didMove+=(inv?-1:1)*(vert?y-r:x-q);
+					}
+				}
+			}
+		}
+		board=nb;
+		return didMove;
+	}
+
+
 	int foldUp(){
 		int didMove=0;
 		int nextSpot;
@@ -114,11 +147,55 @@ class Twe {
 		board=nb;
 		return didMove;
 	}
-	void foldLeft(){
+	int foldLeft(){
+		int didMove=0;
+		int nextSpot;
+		int[][] nb = new int[4][4];
+		for(int x=0;x<4;x++){
+			nextSpot=0;
+			for(int y=0;y<4;y++){
+				if(board[x][y]>0){
+					if(nb[x][nextSpot]<1){
+						nb[x][nextSpot]=board[x][y];
+						didMove+=y-nextSpot;
+					}else if(nb[x][nextSpot]==board[x][y]){
+						nb[x][nextSpot++]*=2;
+						didMove++;
+					}else{
+						nb[x][++nextSpot]=board[x][y];
+						didMove+=y-nextSpot;
+					}
+				}
+			}
+		}
 		chalk("fold left",true);
+		board=nb;
+		return didMove;
 	}
-	void foldRight(){
+	int foldRight(){
+		int didMove=0;
+		int nextSpot;
+		int[][] nb = new int[4][4];
+		for(int x=0;x<4;x++){
+			nextSpot=3;
+			for(int y=3;y>=0;y--){
+				if(board[x][y]>0){
+					if(nb[x][nextSpot]<1){
+						nb[x][nextSpot]=board[x][y];
+						didMove+=nextSpot-y;
+					}else if(nb[x][nextSpot]==board[x][y]){
+						nb[x][nextSpot--]*=2;
+						didMove++;
+					}else{
+						nb[x][--nextSpot]=board[x][y];
+						didMove+=nextSpot-y;
+					}
+				}
+			}
+		}
 		chalk("fold right",true);
+		board=nb;
+		return didMove;
 	}
 	int vec(){
 		return (new Random()).nextInt(4);
