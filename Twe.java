@@ -6,10 +6,12 @@ class Twe {
 	int[][] board=new int[4][4];
 	void start(){
 		int x;
+		board=new int[][]{{0, 2, 8, 16},{4,8,16,32},{8,16,32,64},{16,32,64,128}};
+		placeTwo();
 		do{
-			placeTwo();
 			drawBoard();
 			resolve();
+			placeTwo();
 		}while((x=notDone())>0);
 		drawBoard();
 		wrapup(x);
@@ -24,8 +26,10 @@ class Twe {
 		int free,moves,x,y;
 		for(free=moves=y=0;y<4;y++){
 			for(x=0;x<4;x++){
-				if(board[y][x]<2)free++;
-				else if(x<3&&board[y][x]==board[y][x+1]||
+				if(board[y][x]<2){
+					chalk(""+y+","+x+":"+board[y][x],true);
+					free++;
+				}else if(x<3&&board[y][x]==board[y][x+1]||
 					    y<3&&board[y][x]==board[y+1][x])moves++;
 				if(board[y][x]>2047)return -1;
 			}
@@ -47,7 +51,7 @@ class Twe {
 					if (fold(false,true)>0)return;
 					break;
 				case 'd':
-					if (foldDown()>0)return;
+					if (fold(true, true)>0)return;
 					break;
 				case 'l':
 					if (foldLeft()>0)return;
