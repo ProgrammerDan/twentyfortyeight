@@ -1,45 +1,39 @@
 import java.util.*;
-class Twe {
+class T {
 	public static void main(String[] a){
-		(new Twe()).start();
+		(new T()).s();
 	}
-	int[][] board=new int[4][4];
-	void start(){
+	int[][] b=new int[4][4];
+	void s(){
 		int x;
-		placeTwo();
+		p();
 		do{
-			drawBoard();
-			resolve();
-			placeTwo();
-		}while((x=notDone())>0);
-		drawBoard();
-		wrapup(x);
+			d();
+			r();
+			p();
+		}while((x=n())>0);
+		d();
+		chalk(x<0?"you win":"you lose");
 	}
-	int hasFree(){
-		for(int[]y:board)
+	int h(){
+		for(int[]y:b)
 			for(int x:y)
 				if(x<2)return 1;
 		return 0;
 	}
-	int notDone(){
-		int moves,x,y;
-		for(moves=y=0;y<4;y++){
+	int n(){
+		int x,y,i;
+		for(y=0;y<4;y++){
 			for(x=0;x<4;x++){
-				else if(x<3&&board[y][x]==board[y][x+1]||
-					    y<3&&board[y][x]==board[y+1][x])moves++;
-				if(board[y][x]>2047)return -1;
+				i=b[y][x];
+				if(x<3&&i==b[y][x+1]||
+					    y<3&&i==b[y+1][x])return 1;
+				if(i>2047)return -1;
 			}
 		}
-		return hasFree()+moves;
+		return h();
 	}
-	void wrapup(int k){
-		if(k<0){
-			chalk("you win",true);
-		}else{
-			chalk("you lose",true);
-		}
-	}
-	void resolve(){
+	void r(){
 		do{
 			switch((new Scanner(System.in)).nextLine().charAt(0)){
 				case 'u':
@@ -55,7 +49,7 @@ class Twe {
 					if (fold(true,false)>0)return;
 					break;
 				case 'z':
-					board[0][0]=2048; // instant win;
+					b[0][0]=2048; // instant win;
 					return;
 			}
 		} while(true);
@@ -77,11 +71,11 @@ class Twe {
 				y=inv?3-v:v;
 				q=vert?x:nextSpot;
 				r=vert?nextSpot:y;
-				if(board[y][x]>0){
+				if(b[y][x]>0){
 					if(nb[r][q]<1){
-						nb[r][q]=board[y][x];
+						nb[r][q]=b[y][x];
 						didMove+=(inv?-1:1)*(vert?y-r:x-q);
-					}else if(nb[r][q]==board[y][x]){
+					}else if(nb[r][q]==b[y][x]){
 						nb[r][q]*=2;
 						nextSpot+=inv?-1:1;
 						didMove++;
@@ -89,28 +83,28 @@ class Twe {
 						nextSpot+=inv?-1:1;//suckage
 						q=vert?x:nextSpot;
 						r=vert?nextSpot:y;
-						nb[r][q]=board[y][x];
+						nb[r][q]=b[y][x];
 						didMove+=(inv?-1:1)*(vert?y-r:x-q);
 					}
 				}
 			}
 		}
-		board=nb;
+		b=nb;
 		return didMove;
 	}
 	int vec(){
 		return (new Random()).nextInt(4);
 	}
-	void placeTwo(){
-		if (hasFree()<1) return;
+	void p(){
+		if (h()<1) return;
 		int x,y;
 		do{
 			x=vec();y=vec();
-		}while(board[x][y]>0);
-		board[x][y]=2;
+		}while(b[x][y]>0);
+		b[x][y]=2;
 	}
-	void chalk(String a, boolean nl){
-		System.out.print(a+(nl?"\n":""));
+	void chalk(String a){
+		System.out.print(a+"\n");
 	}
 	String fill(char node, char mid){
 		String str = ""+node;
@@ -121,10 +115,10 @@ class Twe {
 		}
 		return str;
 	}
-	void drawBoard(){
-		chalk(fill('+','-'),true);
+	void d(){
+		chalk(fill('+','-'));
 		String p[] = new String[6];
-		for(int[]y:board){
+		for(int[]y:b){
 			p[0]=p[1]=p[3]=p[4]=fill('|',' ');
 			p[2]="";
 			for(int x=0;x<4;){
@@ -133,7 +127,7 @@ class Twe {
 			p[2]+="|";
 			p[5]=fill('+','-');
 			for (String q:p){
-				chalk(q,true);
+				chalk(q);
 			}
 		}
 	}
