@@ -25,7 +25,7 @@ class Twe {
 		int moves,x,y;
 		for(moves=y=0;y<4;y++){
 			for(x=0;x<4;x++){
-				else if(x<3&&board[y][x]==board[y][x+1]||
+				if(x<3&&board[y][x]==board[y][x+1]||
 					    y<3&&board[y][x]==board[y+1][x])moves++;
 				if(board[y][x]>2047)return -1;
 			}
@@ -66,36 +66,31 @@ class Twe {
 	// true, false = right
 	int fold(boolean inv, boolean vert){
 		int didMove=0;
-		int nextSpot,x,y,v,q,r;
-		int[][] nb = new int[4][4];
+		int x,y,q,r,v,n;
 		for(int i=0;i<4;i++){
-			nextSpot=inv?3:0;
-			for(int j=0;j<4;j++){
+			n=inv?3:0;
+			for(int j=1;j<4;){
 				v=vert?i:j;
 				x=inv?3-v:v;
 				v=vert?j:i;
 				y=inv?3-v:v;
-				q=vert?x:nextSpot;
-				r=vert?nextSpot:y;
-				if(board[y][x]>0){
-					if(nb[r][q]<1){
-						nb[r][q]=board[y][x];
-						didMove+=(inv?-1:1)*(vert?y-r:x-q);
-					}else if(nb[r][q]==board[y][x]){
-						nb[r][q]*=2;
-						nextSpot+=inv?-1:1;
-						didMove++;
-					}else{
-						nextSpot+=inv?-1:1;//suckage
-						q=vert?x:nextSpot;
-						r=vert?nextSpot:y;
-						nb[r][q]=board[y][x];
-						didMove+=(inv?-1:1)*(vert?y-r:x-q);
-					}
-				}
+				q=vert?x:n;
+				r=vert?n:y;
+				if(board[y][x]==0||n==(vert?y:x))j++;
+				else if(board[r][q]==0){
+					board[r][q]=board[y][x];
+					board[y][x]=0;
+					j++;
+					didMove++;
+				}else if(board[r][q]==board[y][x]){
+					board[r][q]*=2;
+					board[y][x]=0;
+					n+=inv?-1:1;
+					didMove++;
+					j++;
+				}else n+=inv?-1:1;
 			}
 		}
-		board=nb;
 		return didMove;
 	}
 	int vec(){
@@ -115,7 +110,7 @@ class Twe {
 	String fill(char node, char mid){
 		String str = ""+node;
 		for(int i=0;i<4;i++){
-			for(int j=0;j<5;j++)
+			for(int j=0;j<4;j++)
 				str+=mid;
 			str+=node;
 		}
@@ -123,21 +118,21 @@ class Twe {
 	}
 	void drawBoard(){
 		chalk(fill('+','-'),true);
-		String p[] = new String[6];
+		String p[] = new String[5];
 		for(int[]y:board){
-			p[0]=p[1]=p[3]=p[4]=fill('|',' ');
+			p[0]=p[1]=p[3]=fill('|',' ');
 			p[2]="";
 			for(int x=0;x<4;){
 				p[2]+=adjust(y[x++]);
 			}
 			p[2]+="|";
-			p[5]=fill('+','-');
+			p[4]=fill('+','-');
 			for (String q:p){
 				chalk(q,true);
 			}
 		}
 	}
 	String adjust(int a){
-		return String.format("|%5d",a);
+		return String.format("|%4d",a);
 	}
 }
