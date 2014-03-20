@@ -115,8 +115,8 @@ class Twe {
                               {8, 4, 4, 0},
                               {0, 8, 8, 4}};
         ref1=new int[]{0,0,0,0};
-        ref2=new int[]{2,2,2,2};
-        ref3=new int[]{4,4,4,4};
+        ref2=new int[]{2,2,2,0};
+        ref3=new int[]{4,4,4,2};
         ref4=new int[]{8,8,8,8};
         assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
         assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
@@ -132,8 +132,8 @@ class Twe {
                               {0, 4, 4, 4}};
         ref1=new int[]{0,0,0,0};
         ref2=new int[]{0,0,0,0};
-        ref3=new int[]{4,4,4,4};
-        ref4=new int[]{4,4,4,4};
+        ref3=new int[]{4,4,4,2};
+        ref4=new int[]{4,4,4,8};
         assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
         assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
         assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
@@ -165,8 +165,8 @@ class Twe {
         ref1=new int[]{2,4,4,8};
         ref2=new int[]{4,2,8,4};
         ref3=new int[]{2,4,2,2};
-        ref4=new int[]{8,2,8,8};
-        assert twe.fold(true,true)>0 : "Down moves when it shouldn't.";
+        ref4=new int[]{8,2,4,8};
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
         assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
         assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
         assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
