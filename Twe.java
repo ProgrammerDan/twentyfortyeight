@@ -202,15 +202,15 @@ class Twe {
 		return 0;
 	}
 	int notDone(){
-		int moves,x,y;
-		for(moves=y=0;y<4;y++){
-			for(x=0;x<4;x++){
+		int x,y;
+		for(y=0;y<4;y++){
+			for(x=0;x<4;){
 				if(x<3&&board[y][x]==board[y][x+1]||
-					    y<3&&board[y][x]==board[y+1][x])moves++;
-				if(board[y][x]>2047)return -1;
+					    y<3&&board[y][x]==board[y+1][x])return 1;
+				if(board[y][x++]>2047)return -1;
 			}
 		}
-		return hasFree()+moves;
+		return hasFree();
 	}
 	void wrapup(int k){
 		if(k<0){
