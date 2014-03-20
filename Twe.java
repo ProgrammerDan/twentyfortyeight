@@ -1,6 +1,186 @@
 import java.util.*;
 class Twe {
+    public static void testDown(Twe twe){
+        int[] ref1,ref2,ref3,ref4;
+        System.out.println("Testing DOWN");
+        System.out.println("1: Simple moves");
+        twe.board=new int[][]{{2, 0, 0, 0},
+                              {0, 2, 0, 0},
+                              {0, 0, 2, 0},
+                              {0, 0, 0, 2}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{2,2,2,2};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref1) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref1) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref2) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("2: Simple moves and merges");
+        twe.board=new int[][]{{2, 0, 0, 0},
+                              {2, 4, 0, 2},
+                              {0, 4, 2, 0},
+                              {0, 0, 2, 2}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{4,8,4,4};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref1) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref1) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref2) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("3: Simple moves and merges B");
+        twe.board=new int[][]{{2, 4, 0, 2},
+                              {0, 0, 4, 0},
+                              {2, 0, 4, 4},
+                              {0, 4, 4, 4}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{0,0,4,2};
+        ref3=new int[]{4,8,8,8};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref1) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref2) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref3) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("4: Moves and merges C");
+        twe.board=new int[][]{{2, 4, 4, 0},
+                              {0, 4, 4, 0},
+                              {2, 4, 0, 2},
+                              {2, 0, 2, 4}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{2,4,8,2};
+        ref3=new int[]{4,8,2,4};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref1) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref2) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref3) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("5: Moves and merges D");
+        twe.board=new int[][]{{2, 0, 2, 0},
+                              {0, 2, 4, 2},
+                              {4, 4, 0, 0},
+                              {2, 2, 2, 8}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{2,2,2,0};
+        ref3=new int[]{4,4,4,2};
+        ref4=new int[]{2,2,2,8};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("6: Moves and merges E");
+        twe.board=new int[][]{{2, 2, 4, 4},
+                              {2, 4, 4, 8},
+                              {8, 4, 2, 2},
+                              {2, 2, 2, 2}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{4,2,0,4};
+        ref3=new int[]{8,8,8,8};
+        ref4=new int[]{2,2,4,4};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("7: Moves A");
+        twe.board=new int[][]{{2, 0, 2, 2},
+                              {4, 2, 0, 0},
+                              {0, 4, 4, 0},
+                              {0, 0, 0, 4}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{0,0,0,0};
+        ref3=new int[]{2,2,2,2};
+        ref4=new int[]{4,4,4,4};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("8: Moves B");
+        twe.board=new int[][]{{2, 0, 2, 2},
+                              {4, 2, 0, 4},
+                              {8, 4, 4, 0},
+                              {0, 8, 8, 4}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{2,2,2,2};
+        ref3=new int[]{4,4,4,4};
+        ref4=new int[]{8,8,8,8};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)==0 : "Down moves when it shouldn't.";
+
+        System.out.println("9: First order merges and moves A");
+        twe.board=new int[][]{{2, 2, 2, 2},
+                              {2, 0, 2, 4},
+                              {4, 2, 0, 0},
+                              {0, 4, 4, 4}};
+        ref1=new int[]{0,0,0,0};
+        ref2=new int[]{0,0,0,0};
+        ref3=new int[]{4,4,4,4};
+        ref4=new int[]{4,4,4,4};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+
+        System.out.println("10: First order merges and moves B");
+        twe.board=new int[][]{{2, 2, 2, 2},
+                              {2, 4, 4, 2},
+                              {2, 8, 2, 4},
+                              {2,16, 2, 2}};
+        ref1=new int[]{0,2,0,0};
+        ref2=new int[]{0,4,2,4};
+        ref3=new int[]{4,8,4,4};
+        ref4=new int[]{4,16,4,2};
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+        assert twe.fold(true,true)>0 : "Down doesn't move when it should.";
+
+        System.out.println("11: Static test");
+        twe.board=new int[][]{{2, 4, 4, 8},
+                              {4, 2, 8, 4},
+                              {2, 4, 2, 2},
+                              {8, 2, 4, 8}};
+        ref1=new int[]{2,4,4,8};
+        ref2=new int[]{4,2,8,4};
+        ref3=new int[]{2,4,2,2};
+        ref4=new int[]{8,2,8,8};
+        assert twe.fold(true,true)>0 : "Down moves when it shouldn't.";
+        assert Arrays.equals(twe.board[0],ref1) : "First row invalid on down.";
+        assert Arrays.equals(twe.board[1],ref2) : "Second row invalid on down.";
+        assert Arrays.equals(twe.board[2],ref3) : "Third row invalid on down.";
+        assert Arrays.equals(twe.board[3],ref4) : "Fourth row invalid on down.";
+    }
 	public static void main(String[] a){
+        // validity tests
+        if (a.length > 0) {
+            Twe twe = new Twe();
+            testDown(twe);
+            //testUp(twe);
+            //testLeft(twe);
+            //testRight(twe);
+        }  
 		(new Twe()).start();
 	}
 	int[][] board=new int[4][4];
